@@ -10,94 +10,35 @@
 
 body{font-family:Arial;margin:0;background:#f4f6fb}
 
-header{
-background:#1e3d8f;
-color:white;
-padding:14px;
-font-size:18px
-}
+header{background:#1e3d8f;color:white;padding:14px;font-size:18px}
 
-.container{
-padding:14px;
-max-width:1400px;
-margin:auto
-}
+.container{padding:14px;max-width:1400px;margin:auto}
 
-.card{
-background:white;
-padding:16px;
-margin-bottom:14px;
-border-radius:8px;
-border:1px solid #ddd
-}
+.card{background:white;padding:16px;margin-bottom:14px;border-radius:8px;border:1px solid #ddd}
 
-.grid{
-display:grid;
-grid-template-columns:1fr 1fr 1fr;
-gap:12px
-}
+.grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
 
-@media(max-width:900px){
-.grid{grid-template-columns:1fr}
-}
+@media(max-width:900px){.grid{grid-template-columns:1fr}}
 
-.field label{
-font-size:13px;
-font-weight:bold;
-display:block;
-margin-bottom:4px
-}
+.field label{font-size:13px;font-weight:bold;display:block;margin-bottom:4px}
 
-input,select,textarea{
-width:100%;
-padding:8px;
-border-radius:6px;
-border:1px solid #ccc
-}
+input,select,textarea{width:100%;padding:8px;border-radius:6px;border:1px solid #ccc}
 
-textarea{
-height:60px
-}
+textarea{height:60px}
 
-button{
-padding:10px 16px;
-border:none;
-background:#1e3d8f;
-color:white;
-border-radius:6px;
-margin:4px;
-cursor:pointer
-}
+.sectionHeader{background:#eef2ff;padding:8px;border-radius:6px;margin-top:14px;font-weight:bold}
 
-.sectionHeader{
-background:#eef2ff;
-padding:8px;
-border-radius:6px;
-margin-top:14px;
-font-weight:bold
-}
+button{padding:10px 16px;border:none;background:#1e3d8f;color:white;border-radius:6px;margin:4px;cursor:pointer}
 
-.roomTab{
-display:inline-block;
-padding:8px 12px;
-border:1px solid #ccc;
-margin:3px;
-border-radius:6px;
-cursor:pointer
-}
+.roomTab{display:inline-block;padding:8px 12px;border:1px solid #ccc;margin:3px;border-radius:6px;cursor:pointer}
 
-.question{
-margin-bottom:10px
-}
+table{width:100%;border-collapse:collapse;margin-top:10px}
 
-.roomNavigation{
-display:flex;
-justify-content:space-between;
-margin-top:20px
-}
+table th,table td{border:1px solid #ddd;padding:6px;text-align:center}
+
+.question{margin-bottom:10px}
 
 </style>
-
 </head>
 
 <body>
@@ -112,99 +53,69 @@ margin-top:20px
 
 <div class="grid">
 
-<div class="field"><label>PID</label><input id="pid"></div>
-<div class="field"><label>Cx Name</label><input id="cx"></div>
-<div class="field"><label>City</label><input id="city"></div>
-<div class="field"><label>Address</label><input id="address"></div>
-<div class="field"><label>Society Name</label><input id="society"></div>
-<div class="field"><label>Flat No</label><input id="flat"></div>
-<div class="field"><label>Floor No</label><input id="floorNo"></div>
+<input id="pid" placeholder="PID">
+<input id="cx" placeholder="Cx Name">
+<input id="city" placeholder="City">
+<input id="address" placeholder="Address">
+<input id="society" placeholder="Society Name">
+<input id="flat" placeholder="Flat No">
+<input id="floorNo" placeholder="Floor No">
 
-<div class="field">
-<label>BHK</label>
 <select id="bhk">
-<option></option>
+<option>BHK</option>
 <option>1</option>
 <option>2</option>
 <option>3</option>
 <option>4</option>
 </select>
-</div>
 
-<div class="field">
-<label>Property Type</label>
 <select id="propertyType">
-<option></option>
+<option>Property Type</option>
 <option>Bare shell</option>
 <option>Builder finished</option>
 <option>Resale</option>
 </select>
-</div>
 
-<div class="field">
-<label>Is Service lift available?</label>
 <select id="serviceLift">
-<option></option>
+<option>Service lift available?</option>
 <option>Yes</option>
 <option>No</option>
 </select>
-</div>
 
-<div class="field">
-<label>Record : Size of the Service lift</label>
-<input id="serviceLiftSize">
-</div>
+<input id="serviceLiftSize" placeholder="Service lift size">
 
-<div class="field">
-<label>Is Passenger lift available?</label>
 <select id="passengerLift">
-<option></option>
+<option>Passenger lift available?</option>
 <option>Yes</option>
 <option>No</option>
 </select>
-</div>
 
-<div class="field">
-<label>Is Service lift Usage Allowed?</label>
 <select id="serviceLiftUsage">
-<option></option>
+<option>Service lift usage allowed?</option>
 <option>Heavy material movement allowed</option>
 <option>Heavy material movement Not allowed</option>
 </select>
-</div>
 
-<div class="field">
-<label>Is dedicated area (for debris and material) present for loading/unloading ?</label>
 <select id="loadingArea">
-<option></option>
-<option>Yes, present within 30 ft of site location</option>
-<option>Yes, present more than 30 ft of site location</option>
-<option>Not present, direct loading/unloading to be done</option>
+<option>Debris loading area</option>
+<option>Within 30 ft</option>
+<option>More than 30 ft</option>
+<option>Not present</option>
 </select>
-</div>
 
-<div class="field">
-<label>Is debris dumping allowed in the basement?</label>
 <select id="debrisDumping">
-<option></option>
+<option>Debris dumping allowed?</option>
 <option>Yes</option>
 <option>No</option>
 </select>
-</div>
 
-<div class="field">
-<label>Is vehicle entry possible?</label>
 <select id="vehicleEntry">
-<option></option>
+<option>Vehicle entry possible?</option>
 <option>Yes</option>
 <option>No</option>
 </select>
-</div>
 
-<div class="field">
-<label>Any Society Restrictions?</label>
-<textarea id="societyRestrictions" placeholder="Add Comments"></textarea>
-</div>
+<textarea id="societyRestrictions" placeholder="Society Restrictions"></textarea>
 
 </div>
 </div>
@@ -224,28 +135,32 @@ margin-top:20px
 
 <script>
 
+const walls=["NW","EW","SW","WW"]
+
+const modules=["1M","2M","3M","4M","6M","8M","10M","12M","AC Point","Fan"]
+
 const roomQuestions=[
 
 "Is there a requirement of PCC due to leveling issues/bare shell property?",
 "Existing flooring in Good condition with with proper slope/levels?",
 "Can we do tile on tile installation?",
-"Is there sufficient height or clearance between the existing ceiling and any obstructions (such as beams, HVAC systems, or lighting fixtures) to accommodate the false ceiling installation?",
+"Is there sufficient height or clearance between the existing ceiling and obstructions to accommodate the false ceiling installation?",
 "Are there visible undulations/uneven surface on the True Ceiling?",
 "Is there any evidence of water leaks or moisture damage on the existing true ceiling?",
-"Are the dimensions of the space suitable for accommodating a sliding door system?",
-"Can we changes to the size, shape, or location of the windows?",
-"Are the existing windows and window frames in poor condition, damaged, rot, instability etc",
+"Are the dimensions suitable for accommodating a sliding door system?",
+"Can we change the size or location of windows?",
+"Are the existing windows and window frames damaged?",
 "Is there a possibility to relocate from one wall to another?",
-"Is there any 15 Amp power Supply present in the room?",
-"Are there any issues with the existing plumbing lines, such as leaks, corrosion, blockages, or inadequate capacity, that require replacement or repair?",
-"Are existing plumbing lines old and outdated and may not be compatible with modern fixtures?",
-"Is the main inlet valve accesible?",
-"Is there sufficent space to provide Shower cubicle?",
-"Is it possible to relocate the WC, without any modifications to external pipeline/drain line?",
-"Do we need to provide damp proof treament on walls?",
-"Do we need to provide weather proof treatment on walls which are exposed to external atmosphere?",
+"Is there any 15 Amp power Supply present?",
+"Are there plumbing issues requiring repair?",
+"Are existing plumbing lines outdated?",
+"Is the main inlet valve accessible?",
+"Is there sufficient space for shower cubicle?",
+"Is WC relocation possible?",
+"Do we need damp proof treatment?",
+"Do we need weather proof treatment?",
 "Is there existing countertop present?",
-"Are there any issues with the existing false ceiling, such as damage, sagging, or instability, that require removal and replacement?"
+"Are there issues with the existing false ceiling?"
 
 ]
 
@@ -253,29 +168,31 @@ const wallQuestions=[
 
 "Is the wall a load-bearing wall/Mivan Construction/Sheer wall?",
 "Is the wall dry wall/Gypsum wall?",
-"Are there major cracks that require structural repair?",
-"Does the existing wall surface have undulations or uneven surface, requiring leveling?",
-"Are the undulation more than 6 mm?",
-"Are there minor cracks/loose plaster requiring re plastering??",
-"Is there suitable location for core cut available?",
-"Are existing switch/socket in working condition?",
-"Can we re-use the existing module/switch board?",
-"Can split AC be installed post false ceiling w/o pockets?",
-"Is panelling/pelmet required to be done for AC installation?",
-"Are there any darker shade on the wall?",
-"Is the existing paint in good condition, without excessive peeling, flaking, or bubbling?",
-"Do we need to remove skirting for wardrobe installlation?"
+"Are there major cracks requiring structural repair?",
+"Does the existing wall surface have undulations requiring leveling?",
+"Are the undulations more than 6 mm?",
+"Are there minor cracks requiring re plastering?",
+"Is core cut location available?",
+"Are existing switch/socket working?",
+"Can we reuse existing switch board?",
+"Can split AC be installed post false ceiling?",
+"Is AC panelling required?",
+"Are there darker shades on wall?",
+"Is existing paint condition good?",
+"Do we need to remove skirting for wardrobe?"
 
 ]
 
 const defaultRooms=["Living Room","Kitchen","Bedroom 1","Bedroom 2","Bathroom 1","Bathroom 2","Balcony"]
 
 let roomOrder=[...defaultRooms]
-let currentRoom=0
+
 let data={}
 
 defaultRooms.forEach(r=>{
-data[r]={room:{},wall:{}}
+
+data[r]={measure:{},electrical:{},room:{},wall:{}}
+
 })
 
 function renderTabs(){
@@ -283,7 +200,9 @@ function renderTabs(){
 let html=""
 
 roomOrder.forEach(r=>{
+
 html+=`<span class="roomTab" onclick="openRoom('${r}')">${r}</span>`
+
 })
 
 document.getElementById("roomTabs").innerHTML=html
@@ -292,90 +211,130 @@ document.getElementById("roomTabs").innerHTML=html
 
 function openRoom(room){
 
-currentRoom=roomOrder.indexOf(room)
-
 let html=`<h3>${room}</h3>`
+
+html+=`<div class="sectionHeader">Measurements</div>
+
+<div class="grid">
+
+<input placeholder="Ceiling NW">
+<input placeholder="Ceiling NE">
+<input placeholder="Ceiling SW">
+<input placeholder="Ceiling SE">
+<input placeholder="Ceiling Center">
+
+<input placeholder="Diagonal 1">
+<input placeholder="Diagonal 2">
+
+<input placeholder="Wall Deviation NW">
+<input placeholder="Wall Deviation EW">
+<input placeholder="Wall Deviation SW">
+<input placeholder="Wall Deviation WW">
+
+</div>`
+
+html+=`<div class="sectionHeader">Electrical Modules</div><table><tr><th>Wall</th>`
+
+modules.forEach(m=>html+=`<th>${m}</th>`)
+
+html+=`</tr>`
+
+walls.forEach(w=>{
+
+html+=`<tr><td>${w}</td>`
+
+modules.forEach(m=>{
+
+html+=`<td><input></td>`
+
+})
+
+html+=`</tr>`
+
+})
+
+html+=`</table>`
 
 html+=`<div class="sectionHeader">Room Questions</div>`
 
 roomQuestions.forEach(q=>{
+
 html+=`
+
 <div class="question">
+
 <label>${q}</label>
-<select onchange="saveAnswer('${room}','room','${q}',this.value)">
+
+<select>
+
 <option></option>
+
 <option>Yes</option>
+
 <option>No</option>
+
 </select>
-<textarea placeholder="Add Comments"
-oninput="saveComment('${room}','room','${q}',this.value)"></textarea>
+
+<textarea placeholder="Add Comments"></textarea>
+
 </div>`
+
 })
 
 html+=`<div class="sectionHeader">Wall Questions</div>`
 
 wallQuestions.forEach(q=>{
+
 html+=`
+
 <div class="question">
+
 <label>${q}</label>
-<select onchange="saveAnswer('${room}','wall','${q}',this.value)">
+
+<select>
+
 <option></option>
+
 <option>Yes</option>
+
 <option>No</option>
+
 </select>
 
-<select multiple onchange="saveWall('${room}','${q}',this)">
+<select multiple>
+
 <option>NW</option>
+
 <option>EW</option>
+
 <option>SW</option>
+
 <option>WW</option>
+
 </select>
 
-<textarea placeholder="Add Comments"
-oninput="saveComment('${room}','wall','${q}',this.value)"></textarea>
-</div>`
-})
+<textarea placeholder="Add Comments"></textarea>
 
-html+=`
-<div class="roomNavigation">
-<button onclick="prevRoom()">Previous Room</button>
-<button onclick="nextRoom()">Next Room</button>
-</div>
-`
+</div>`
+
+})
 
 document.getElementById("roomForm").innerHTML=html
 
 }
 
-function saveAnswer(room,type,q,val){
-if(!data[room][type][q])data[room][type][q]={}
-data[room][type][q].answer=val
-}
-
-function saveComment(room,type,q,val){
-if(!data[room][type][q])data[room][type][q]={}
-data[room][type][q].comment=val
-}
-
-function saveWall(room,q,el){
-if(!data[room].wall[q])data[room].wall[q]={}
-data[room].wall[q].walls=[...el.selectedOptions].map(o=>o.value)
-}
-
-function prevRoom(){
-if(currentRoom>0)openRoom(roomOrder[currentRoom-1])
-}
-
-function nextRoom(){
-if(currentRoom<roomOrder.length-1)openRoom(roomOrder[currentRoom+1])
-}
-
 function addRoom(){
-let name=prompt("Room Name")
+
+let name=prompt("Room name")
+
 if(!name)return
+
 roomOrder.push(name)
-data[name]={room:{},wall:{}}
+
+data[name]={measure:{},electrical:{},room:{},wall:{}}
+
 renderTabs()
+
 }
 
 function generateExcel(){
@@ -384,38 +343,22 @@ let rows=[]
 
 Object.keys(data).forEach(room=>{
 
-Object.entries(data[room].room).forEach(([q,v])=>{
-rows.push({
-Room:room,
-Section:"Room Question",
-Question:q,
-Answer:v.answer,
-Comment:v.comment
-})
-})
-
-Object.entries(data[room].wall).forEach(([q,v])=>{
-rows.push({
-Room:room,
-Section:"Wall Question",
-Wall:(v.walls||[]).join(","),
-Question:q,
-Answer:v.answer,
-Comment:v.comment
-})
-})
+rows.push({Room:room})
 
 })
 
 let wb=XLSX.utils.book_new()
+
 let ws=XLSX.utils.json_to_sheet(rows)
 
 XLSX.utils.book_append_sheet(wb,ws,"Validation Data")
+
 XLSX.writeFile(wb,"site_validation.xlsx")
 
 }
 
 renderTabs()
+
 openRoom(defaultRooms[0])
 
 </script>
