@@ -7,11 +7,7 @@
 
 <style>
 
-body{
-font-family:Arial;
-margin:0;
-background:#f4f6fb;
-}
+body{font-family:Arial;margin:0;background:#f4f6fb;}
 
 header{
 background:#1e3d8f;
@@ -20,7 +16,6 @@ padding:14px;
 font-size:18px;
 position:sticky;
 top:0;
-z-index:10;
 }
 
 .container{
@@ -40,24 +35,29 @@ border:1px solid #ddd;
 .grid{
 display:grid;
 grid-template-columns:1fr 1fr 1fr;
-gap:10px;
+gap:14px;
 }
 
 @media(max-width:900px){
 .grid{grid-template-columns:1fr;}
 }
 
+.field label{
+font-size:13px;
+font-weight:bold;
+display:block;
+margin-bottom:4px;
+}
+
 input,select,textarea{
 width:100%;
-padding:10px;
+padding:9px;
 border-radius:6px;
 border:1px solid #ccc;
-font-size:14px;
 }
 
 textarea{
 height:70px;
-color:#333;
 }
 
 textarea::placeholder{
@@ -65,13 +65,12 @@ color:#aaa;
 }
 
 button{
-padding:12px 16px;
+padding:11px 16px;
 border:none;
 background:#1e3d8f;
 color:white;
 border-radius:6px;
 margin:4px;
-font-size:14px;
 cursor:pointer;
 }
 
@@ -81,17 +80,23 @@ top:60px;
 background:white;
 padding:8px;
 border-bottom:1px solid #ddd;
-z-index:9;
 }
 
 .roomTab{
 display:inline-block;
-padding:10px 14px;
+padding:9px 14px;
 border:1px solid #ccc;
 margin:4px;
 border-radius:6px;
 cursor:pointer;
-font-size:14px;
+}
+
+.sectionHeader{
+background:#eef2ff;
+padding:8px;
+border-radius:6px;
+margin-top:14px;
+font-weight:bold;
 }
 
 table{
@@ -104,21 +109,10 @@ table th,table td{
 border:1px solid #ddd;
 padding:6px;
 text-align:center;
-font-size:13px;
 }
 
 .question{
-border-bottom:1px dashed #ddd;
-padding-bottom:10px;
-margin-bottom:10px;
-}
-
-.sectionHeader{
-background:#eef2ff;
-padding:8px;
-border-radius:6px;
-margin-top:12px;
-font-weight:bold;
+margin-bottom:12px;
 }
 
 </style>
@@ -133,87 +127,130 @@ font-weight:bold;
 
 <div class="container">
 
-<!-- PRELIMINARY PROJECT DETAILS -->
-
 <div class="card">
 
 <h3>Preliminary Project Details</h3>
 
 <div class="grid">
 
-<input id="pid" placeholder="PID">
+<div class="field">
+<label>PID</label>
+<input id="pid">
+</div>
 
-<input id="cx" placeholder="Customer Name">
+<div class="field">
+<label>Customer Name</label>
+<input id="cx">
+</div>
 
-<input id="city" placeholder="City">
+<div class="field">
+<label>City</label>
+<input id="city">
+</div>
 
-<input id="address" placeholder="Address">
+<div class="field">
+<label>Address</label>
+<input id="address">
+</div>
 
-<input id="society" placeholder="Society">
+<div class="field">
+<label>Society</label>
+<input id="society">
+</div>
 
-<input id="flat" placeholder="Flat No">
+<div class="field">
+<label>Flat No</label>
+<input id="flat">
+</div>
 
+<div class="field">
+<label>Service Lift Available</label>
 <select id="serviceLift">
-<option value="">Service Lift Available</option>
+<option></option>
 <option>Yes</option>
 <option>No</option>
 </select>
+</div>
 
-<input id="liftSize" placeholder="Service Lift Size">
+<div class="field">
+<label>Service Lift Size</label>
+<input id="liftSize">
+</div>
 
+<div class="field">
+<label>Passenger Lift Usage</label>
 <select id="passLift">
-<option value="">Passenger Lift Usage</option>
+<option></option>
 <option>Allowed</option>
 <option>Not Allowed</option>
 <option>No Lift</option>
 </select>
+</div>
 
+<div class="field">
+<label>Vehicle Entry</label>
 <select id="vehicle">
-<option value="">Vehicle Entry</option>
+<option></option>
 <option>Small Vehicles</option>
 <option>Large Vehicles</option>
 <option>Not Allowed</option>
 </select>
+</div>
 
+<div class="field">
+<label>Power Supply Available</label>
 <select id="power">
-<option value="">Power Supply Available</option>
+<option></option>
 <option>Yes</option>
 <option>No</option>
 </select>
+</div>
 
+<div class="field">
+<label>Water Supply Available</label>
 <select id="water">
-<option value="">Water Supply Available</option>
+<option></option>
 <option>Yes</option>
 <option>No</option>
 </select>
+</div>
 
+<div class="field">
+<label>Mivan Construction</label>
 <select id="mivan">
-<option value="">Mivan Construction</option>
+<option></option>
 <option>Yes</option>
 <option>No</option>
 </select>
+</div>
 
+<div class="field">
+<label>Demolition Allowed</label>
 <select id="demo">
-<option value="">Demolition Allowed</option>
+<option></option>
 <option>Manual</option>
 <option>Mechanised</option>
 <option>Both</option>
 </select>
+</div>
 
-<input id="workTime" placeholder="Work Timing Restrictions">
+<div class="field">
+<label>Work Timing Restrictions</label>
+<input id="workTime">
+</div>
 
+<div class="field">
+<label>Society Restrictions</label>
 <textarea id="societyRestrictions" placeholder="Add Comments"></textarea>
+</div>
 
 </div>
 
 </div>
 
 <div class="roomNav">
-
 <div id="roomTabs"></div>
-
 <button onclick="addRoom()">Add Room</button>
-
 </div>
 
 <div class="card" id="roomForm"></div>
@@ -233,17 +270,10 @@ font-weight:bold;
 const walls=["NW","EW","SW","WW"]
 
 const defaultRooms=[
-"Living Room",
-"Kitchen",
-"Bedroom 1",
-"Bedroom 2",
-"Bathroom 1",
-"Bathroom 2",
-"Balcony"
+"Living Room","Kitchen","Bedroom 1","Bedroom 2","Bathroom 1","Bathroom 2","Balcony"
 ]
 
 const roomQuestions=[
-
 "False ceiling clearance sufficient",
 "Ceiling undulation present",
 "Water leakage on ceiling",
@@ -264,11 +294,9 @@ const roomQuestions=[
 "Door condition poor",
 "Door refurbishable",
 "Termite infestation present"
-
 ]
 
 const wallQuestions=[
-
 "Load bearing wall / Mivan wall",
 "Dry wall / Gypsum wall",
 "Major cracks requiring structural repair",
@@ -281,7 +309,6 @@ const wallQuestions=[
 "Split AC possible",
 "Dark shade on wall",
 "Paint condition poor"
-
 ]
 
 let data={rooms:{}}
@@ -329,33 +356,27 @@ let html=`<h3>${room}</h3>`
 html+=`<div class="sectionHeader">Ceiling Height</div>
 
 <div class="grid">
-<input value="${r.measurements.nw||''}" placeholder="NW" oninput="saveMeasure('${room}','nw',this.value)">
-<input value="${r.measurements.ne||''}" placeholder="NE" oninput="saveMeasure('${room}','ne',this.value)">
-<input value="${r.measurements.se||''}" placeholder="SE" oninput="saveMeasure('${room}','se',this.value)">
-<input value="${r.measurements.sw||''}" placeholder="SW" oninput="saveMeasure('${room}','sw',this.value)">
-<input value="${r.measurements.center||''}" placeholder="Center" oninput="saveMeasure('${room}','center',this.value)">
+<input placeholder="NW" oninput="saveMeasure('${room}','nw',this.value)">
+<input placeholder="NE" oninput="saveMeasure('${room}','ne',this.value)">
+<input placeholder="SE" oninput="saveMeasure('${room}','se',this.value)">
+<input placeholder="SW" oninput="saveMeasure('${room}','sw',this.value)">
+<input placeholder="Center" oninput="saveMeasure('${room}','center',this.value)">
 </div>`
 
 html+=`<div class="sectionHeader">Electrical</div>
 
 <table>
-<tr>
-<th>Wall</th>
-<th>4M</th>
-<th>6M</th>
-<th>8M</th>
-<th>12M</th>
-</tr>`
+<tr><th>Wall</th><th>4M</th><th>6M</th><th>8M</th></tr>`
 
 walls.forEach(w=>{
-let e=r.electrical[w]||{}
+
 html+=`<tr>
 <td>${w}</td>
-<td><input value="${e['4M']||''}" oninput="saveElec('${room}','${w}','4M',this.value)"></td>
-<td><input value="${e['6M']||''}" oninput="saveElec('${room}','${w}','6M',this.value)"></td>
-<td><input value="${e['8M']||''}" oninput="saveElec('${room}','${w}','8M',this.value)"></td>
-<td><input value="${e['12M']||''}" oninput="saveElec('${room}','${w}','12M',this.value)"></td>
+<td><input oninput="saveElec('${room}','${w}','4M',this.value)"></td>
+<td><input oninput="saveElec('${room}','${w}','6M',this.value)"></td>
+<td><input oninput="saveElec('${room}','${w}','8M',this.value)"></td>
 </tr>`
+
 })
 
 html+="</table>"
@@ -363,48 +384,50 @@ html+="</table>"
 html+=`<div class="sectionHeader">Room Observations</div>`
 
 roomQuestions.forEach(q=>{
-let v=r.room[q]||{}
-html+=`<div class="question">
+html+=`
+<div class="question">
 
 <label>${q}</label>
 
 <select oninput="saveRoom('${room}','${q}',this.value)">
 <option></option>
-<option ${v.answer=="Yes"?"selected":""}>Yes</option>
-<option ${v.answer=="No"?"selected":""}>No</option>
-<option ${v.answer=="N.A"?"selected":""}>N.A</option>
+<option>Yes</option>
+<option>No</option>
+<option>N.A</option>
 </select>
 
-<textarea placeholder="Add Comments" oninput="saveRoomComment('${room}','${q}',this.value)">${v.comment||""}</textarea>
+<textarea placeholder="Add Comments" oninput="saveRoomComment('${room}','${q}',this.value)"></textarea>
 
-</div>`
+</div>
+`
 })
 
 html+=`<div class="sectionHeader">Wall Observations</div>`
 
 wallQuestions.forEach(q=>{
-let v=r.walls[q]||{}
-html+=`<div class="question">
+html+=`
+<div class="question">
 
 <label>${q}</label>
 
 <select oninput="saveWall('${room}','${q}','answer',this.value)">
 <option></option>
-<option ${v.answer=="Yes"?"selected":""}>Yes</option>
-<option ${v.answer=="No"?"selected":""}>No</option>
-<option ${v.answer=="N.A"?"selected":""}>N.A</option>
+<option>Yes</option>
+<option>No</option>
+<option>N.A</option>
 </select>
 
 <select multiple oninput="saveWallWalls('${room}','${q}',this)">
-<option ${v.walls?.includes("NW")?"selected":""}>NW</option>
-<option ${v.walls?.includes("EW")?"selected":""}>EW</option>
-<option ${v.walls?.includes("SW")?"selected":""}>SW</option>
-<option ${v.walls?.includes("WW")?"selected":""}>WW</option>
+<option>NW</option>
+<option>EW</option>
+<option>SW</option>
+<option>WW</option>
 </select>
 
-<textarea placeholder="Add Comments" oninput="saveWall('${room}','${q}','comment',this.value)">${v.comment||""}</textarea>
+<textarea placeholder="Add Comments" oninput="saveWall('${room}','${q}','comment',this.value)"></textarea>
 
-</div>`
+</div>
+`
 })
 
 document.getElementById("roomForm").innerHTML=html
@@ -424,7 +447,6 @@ data.rooms[r].room[q].answer=v
 }
 
 function saveRoomComment(r,q,v){
-if(!data.rooms[r].room[q])data.rooms[r].room[q]={}
 data.rooms[r].room[q].comment=v
 }
 
@@ -435,30 +457,17 @@ data.rooms[r].walls[q][t]=v
 
 function saveWallWalls(r,q,e){
 let s=[...e.selectedOptions].map(o=>o.value)
-if(!data.rooms[r].walls[q])data.rooms[r].walls[q]={}
 data.rooms[r].walls[q].walls=s
 }
 
 function generateExcel(){
 
-let measurements=[]
-let electrical=[]
 let roomObs=[]
 let wallObs=[]
 
 Object.keys(data.rooms).forEach(room=>{
 
 let r=data.rooms[room]
-
-Object.entries(r.measurements).forEach(([k,v])=>{
-measurements.push({Room:room,Measurement:k,Value:v})
-})
-
-Object.entries(r.electrical).forEach(([wall,val])=>{
-Object.entries(val).forEach(([k,v])=>{
-electrical.push({Room:room,Wall:wall,Module:k,Value:v})
-})
-})
 
 Object.entries(r.room).forEach(([q,v])=>{
 roomObs.push({Room:room,Question:q,Answer:v.answer,Comment:v.comment})
@@ -472,8 +481,6 @@ wallObs.push({Room:room,Question:q,Answer:v.answer,Walls:(v.walls||[]).join(",")
 
 let wb=XLSX.utils.book_new()
 
-XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(measurements),"Measurements")
-XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(electrical),"Electrical")
 XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(roomObs),"Room Observations")
 XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(wallObs),"Wall Observations")
 
@@ -485,19 +492,6 @@ function fillTestData(){
 
 pid.value="TEST001"
 cx.value="Test Customer"
-
-Object.keys(data.rooms).forEach(room=>{
-data.rooms[room].measurements={nw:3050,ne:3050,se:3050,sw:3050,center:3050}
-
-roomQuestions.forEach(q=>{
-data.rooms[room].room[q]={answer:"No",comment:"OK"}
-})
-
-wallQuestions.forEach(q=>{
-data.rooms[room].walls[q]={answer:"No",walls:["NW"],comment:"OK"}
-})
-
-})
 
 alert("Test data loaded")
 
