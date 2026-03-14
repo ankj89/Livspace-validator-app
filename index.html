@@ -53,15 +53,15 @@ table th,table td{border:1px solid #ddd;padding:6px;text-align:center}
 
 <div class="grid">
 
-<input id="pid" placeholder="PID">
-<input id="cx" placeholder="Cx Name">
-<input id="city" placeholder="City">
-<input id="address" placeholder="Address">
-<input id="society" placeholder="Society Name">
-<input id="flat" placeholder="Flat No">
-<input id="floorNo" placeholder="Floor No">
+<input id="pid" placeholder="PID" onchange="saveProject()">
+<input id="cx" placeholder="Cx Name" onchange="saveProject()">
+<input id="city" placeholder="City" onchange="saveProject()">
+<input id="address" placeholder="Address" onchange="saveProject()">
+<input id="society" placeholder="Society Name" onchange="saveProject()">
+<input id="flat" placeholder="Flat No" onchange="saveProject()">
+<input id="floorNo" placeholder="Floor No" onchange="saveProject()">
 
-<select id="bhk">
+<select id="bhk" onchange="saveProject()">
 <option>BHK</option>
 <option>1</option>
 <option>2</option>
@@ -69,53 +69,53 @@ table th,table td{border:1px solid #ddd;padding:6px;text-align:center}
 <option>4</option>
 </select>
 
-<select id="propertyType">
+<select id="propertyType" onchange="saveProject()">
 <option>Property Type</option>
 <option>Bare shell</option>
 <option>Builder finished</option>
 <option>Resale</option>
 </select>
 
-<select id="serviceLift">
+<select id="serviceLift" onchange="saveProject()">
 <option>Service lift available?</option>
 <option>Yes</option>
 <option>No</option>
 </select>
 
-<input id="serviceLiftSize" placeholder="Service lift size">
+<input id="serviceLiftSize" placeholder="Service lift size" onchange="saveProject()">
 
-<select id="passengerLift">
+<select id="passengerLift" onchange="saveProject()">
 <option>Passenger lift available?</option>
 <option>Yes</option>
 <option>No</option>
 </select>
 
-<select id="serviceLiftUsage">
+<select id="serviceLiftUsage" onchange="saveProject()">
 <option>Service lift usage allowed?</option>
 <option>Heavy material movement allowed</option>
 <option>Heavy material movement Not allowed</option>
 </select>
 
-<select id="loadingArea">
+<select id="loadingArea" onchange="saveProject()">
 <option>Debris loading area</option>
 <option>Within 30 ft</option>
 <option>More than 30 ft</option>
 <option>Not present</option>
 </select>
 
-<select id="debrisDumping">
+<select id="debrisDumping" onchange="saveProject()">
 <option>Debris dumping allowed?</option>
 <option>Yes</option>
 <option>No</option>
 </select>
 
-<select id="vehicleEntry">
+<select id="vehicleEntry" onchange="saveProject()">
 <option>Vehicle entry possible?</option>
 <option>Yes</option>
 <option>No</option>
 </select>
 
-<textarea id="societyRestrictions" placeholder="Society Restrictions"></textarea>
+<textarea id="societyRestrictions" placeholder="Society Restrictions" onchange="saveProject()"></textarea>
 
 </div>
 </div>
@@ -128,6 +128,8 @@ table th,table td{border:1px solid #ddd;padding:6px;text-align:center}
 <div class="card" id="roomForm"></div>
 
 <div class="card">
+<button onclick="saveData()">Save Data</button>
+<button onclick="generateTestData()">Generate Test Data</button>
 <button onclick="generateExcel()">Generate Excel</button>
 </div>
 
@@ -136,11 +138,9 @@ table th,table td{border:1px solid #ddd;padding:6px;text-align:center}
 <script>
 
 const walls=["NW","EW","SW","WW"]
-
 const modules=["1M","2M","3M","4M","6M","8M","10M","12M","AC Point","Fan"]
 
 const roomQuestions=[
-
 "Is there a requirement of PCC due to leveling issues/bare shell property?",
 "Existing flooring in Good condition with with proper slope/levels?",
 "Can we do tile on tile installation?",
@@ -161,11 +161,9 @@ const roomQuestions=[
 "Do we need weather proof treatment?",
 "Is there existing countertop present?",
 "Are there issues with the existing false ceiling?"
-
 ]
 
 const wallQuestions=[
-
 "Is the wall a load-bearing wall/Mivan Construction/Sheer wall?",
 "Is the wall dry wall/Gypsum wall?",
 "Are there major cracks requiring structural repair?",
@@ -180,33 +178,54 @@ const wallQuestions=[
 "Are there darker shades on wall?",
 "Is existing paint condition good?",
 "Do we need to remove skirting for wardrobe?"
-
 ]
 
 const defaultRooms=["Living Room","Kitchen","Bedroom 1","Bedroom 2","Bathroom 1","Bathroom 2","Balcony"]
 
 let roomOrder=[...defaultRooms]
 
-let data={}
+let data=JSON.parse(localStorage.getItem("validatorData")||"{}")
+
+if(!data.rooms)data.rooms={}
+if(!data.project)data.project={}
 
 defaultRooms.forEach(r=>{
-
-data[r]={measure:{},electrical:{},room:{},wall:{}}
-
+if(!data.rooms[r])data.rooms[r]={measure:{},electrical:{},room:{},wall:{},wallSelection:{}}
 })
+
+function saveProject(){
+data.project={
+pid:pid.value,
+cx:cx.value,
+city:city.value,
+address:address.value,
+society:society.value,
+flat:flat.value,
+floorNo:floorNo.value
+}
+saveData()
+}
+
+function saveData(){
+localStorage.setItem("validatorData",JSON.stringify(data))
+}
 
 function renderTabs(){
-
 let html=""
-
 roomOrder.forEach(r=>{
-
 html+=`<span class="roomTab" onclick="openRoom('${r}')">${r}</span>`
-
 })
-
 document.getElementById("roomTabs").innerHTML=html
+}
 
+function store(room,section,key,val){
+data.rooms[room][section][key]=val
+saveData()
+}
+
+function storeWalls(room,q,el){
+data.rooms[room].wallSelection[q]=[...el.selectedOptions].map(o=>o.value)
+saveData()
 }
 
 function openRoom(room){
@@ -214,43 +233,34 @@ function openRoom(room){
 let html=`<h3>${room}</h3>`
 
 html+=`<div class="sectionHeader">Measurements</div>
-
 <div class="grid">
 
-<input placeholder="Ceiling NW">
-<input placeholder="Ceiling NE">
-<input placeholder="Ceiling SW">
-<input placeholder="Ceiling SE">
-<input placeholder="Ceiling Center">
+<input placeholder="Ceiling NW" onchange="store('${room}','measure','ceilingNW',this.value)">
+<input placeholder="Ceiling NE" onchange="store('${room}','measure','ceilingNE',this.value)">
+<input placeholder="Ceiling SW" onchange="store('${room}','measure','ceilingSW',this.value)">
+<input placeholder="Ceiling SE" onchange="store('${room}','measure','ceilingSE',this.value)">
+<input placeholder="Ceiling Center" onchange="store('${room}','measure','ceilingCenter',this.value)">
 
-<input placeholder="Diagonal 1">
-<input placeholder="Diagonal 2">
+<input placeholder="Diagonal 1" onchange="store('${room}','measure','diag1',this.value)">
+<input placeholder="Diagonal 2" onchange="store('${room}','measure','diag2',this.value)">
 
-<input placeholder="Wall Deviation NW">
-<input placeholder="Wall Deviation EW">
-<input placeholder="Wall Deviation SW">
-<input placeholder="Wall Deviation WW">
+<input placeholder="Wall Deviation NW" onchange="store('${room}','measure','devNW',this.value)">
+<input placeholder="Wall Deviation EW" onchange="store('${room}','measure','devEW',this.value)">
+<input placeholder="Wall Deviation SW" onchange="store('${room}','measure','devSW',this.value)">
+<input placeholder="Wall Deviation WW" onchange="store('${room}','measure','devWW',this.value)">
 
 </div>`
 
 html+=`<div class="sectionHeader">Electrical Modules</div><table><tr><th>Wall</th>`
-
 modules.forEach(m=>html+=`<th>${m}</th>`)
-
 html+=`</tr>`
 
 walls.forEach(w=>{
-
 html+=`<tr><td>${w}</td>`
-
 modules.forEach(m=>{
-
-html+=`<td><input></td>`
-
+html+=`<td><input onchange="store('${room}','electrical','${w}-${m}',this.value)"></td>`
 })
-
 html+=`</tr>`
-
 })
 
 html+=`</table>`
@@ -258,69 +268,89 @@ html+=`</table>`
 html+=`<div class="sectionHeader">Room Questions</div>`
 
 roomQuestions.forEach(q=>{
-
 html+=`
-
 <div class="question">
-
 <label>${q}</label>
-
-<select>
-
+<select onchange="store('${room}','room','${q}',this.value)">
 <option></option>
-
 <option>Yes</option>
-
 <option>No</option>
-
 </select>
-
-<textarea placeholder="Add Comments"></textarea>
-
+<textarea placeholder="Add Comments"
+onchange="store('${room}','room','${q}-comment',this.value)"></textarea>
 </div>`
-
 })
 
 html+=`<div class="sectionHeader">Wall Questions</div>`
 
 wallQuestions.forEach(q=>{
-
 html+=`
-
 <div class="question">
-
 <label>${q}</label>
-
-<select>
-
+<select onchange="store('${room}','wall','${q}',this.value)">
 <option></option>
-
 <option>Yes</option>
-
 <option>No</option>
-
 </select>
-
-<select multiple>
-
+<select multiple onchange="storeWalls('${room}','${q}',this)">
 <option>NW</option>
-
 <option>EW</option>
-
 <option>SW</option>
-
 <option>WW</option>
-
 </select>
-
-<textarea placeholder="Add Comments"></textarea>
-
+<textarea placeholder="Add Comments"
+onchange="store('${room}','wall','${q}-comment',this.value)"></textarea>
 </div>`
-
 })
 
 document.getElementById("roomForm").innerHTML=html
+}
 
+function generateTestData(){
+
+pid.value="1234"
+cx.value="Ankit"
+
+document.querySelectorAll("select").forEach(s=>{
+if([...s.options].some(o=>o.value==="Yes"))s.value="Yes"
+})
+
+document.querySelectorAll("textarea").forEach(t=>{
+t.value="This is a test message"
+})
+
+}
+
+function generateExcel(){
+
+let rows=[]
+
+Object.keys(data.rooms).forEach(room=>{
+let r=data.rooms[room]
+
+Object.entries(r.measure).forEach(([k,v])=>{
+rows.push({Room:room,Section:"Measurement",Item:k,Value:v})
+})
+
+Object.entries(r.electrical).forEach(([k,v])=>{
+rows.push({Room:room,Section:"Electrical",Item:k,Value:v})
+})
+
+Object.entries(r.room).forEach(([k,v])=>{
+rows.push({Room:room,Section:"Room Question",Item:k,Value:v})
+})
+
+Object.entries(r.wall).forEach(([k,v])=>{
+rows.push({Room:room,Section:"Wall Question",Item:k,Value:v})
+})
+
+})
+
+let wb=XLSX.utils.book_new()
+let ws=XLSX.utils.json_to_sheet(rows)
+
+XLSX.utils.book_append_sheet(wb,ws,"Validation Data")
+XLSX.writeFile(wb,"site_validation.xlsx")
 }
 
 function addRoom(){
@@ -331,34 +361,12 @@ if(!name)return
 
 roomOrder.push(name)
 
-data[name]={measure:{},electrical:{},room:{},wall:{}}
+data.rooms[name]={measure:{},electrical:{},room:{},wall:{},wallSelection:{}}
 
 renderTabs()
-
-}
-
-function generateExcel(){
-
-let rows=[]
-
-Object.keys(data).forEach(room=>{
-
-rows.push({Room:room})
-
-})
-
-let wb=XLSX.utils.book_new()
-
-let ws=XLSX.utils.json_to_sheet(rows)
-
-XLSX.utils.book_append_sheet(wb,ws,"Validation Data")
-
-XLSX.writeFile(wb,"site_validation.xlsx")
-
 }
 
 renderTabs()
-
 openRoom(defaultRooms[0])
 
 </script>
