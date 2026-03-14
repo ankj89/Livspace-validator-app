@@ -9,21 +9,13 @@
 <style>
 
 body{font-family:Arial;margin:0;background:#f4f6fb}
-
 header{background:#1e3d8f;color:white;padding:14px;font-size:18px}
-
 .container{padding:14px;max-width:1400px;margin:auto}
-
 .card{background:white;padding:16px;margin-bottom:14px;border-radius:8px;border:1px solid #ddd}
-
 .grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
-
 @media(max-width:900px){.grid{grid-template-columns:1fr}}
 
-.field label{font-size:13px;font-weight:bold;display:block;margin-bottom:4px}
-
 input,select,textarea{width:100%;padding:8px;border-radius:6px;border:1px solid #ccc}
-
 textarea{height:60px}
 
 .sectionHeader{background:#eef2ff;padding:8px;border-radius:6px;margin-top:14px;font-weight:bold}
@@ -33,7 +25,6 @@ button{padding:10px 16px;border:none;background:#1e3d8f;color:white;border-radiu
 .roomTab{display:inline-block;padding:8px 12px;border:1px solid #ccc;margin:3px;border-radius:6px;cursor:pointer}
 
 table{width:100%;border-collapse:collapse;margin-top:10px}
-
 table th,table td{border:1px solid #ddd;padding:6px;text-align:center}
 
 .question{margin-bottom:10px}
@@ -199,9 +190,7 @@ pid:pid.value,
 cx:cx.value,
 city:city.value,
 address:address.value,
-society:society.value,
-flat:flat.value,
-floorNo:floorNo.value
+society:society.value
 }
 saveData()
 }
@@ -218,52 +207,35 @@ html+=`<span class="roomTab" onclick="openRoom('${r}')">${r}</span>`
 document.getElementById("roomTabs").innerHTML=html
 }
 
-function store(room,section,key,val){
-data.rooms[room][section][key]=val
-saveData()
-}
-
-function storeWalls(room,q,el){
-data.rooms[room].wallSelection[q]=[...el.selectedOptions].map(o=>o.value)
+function store(room,section,key,value){
+data.rooms[room][section][key]=value
 saveData()
 }
 
 function openRoom(room){
+
+let r=data.rooms[room]
 
 let html=`<h3>${room}</h3>`
 
 html+=`<div class="sectionHeader">Measurements</div>
 <div class="grid">
 
-<input placeholder="Ceiling NW" onchange="store('${room}','measure','ceilingNW',this.value)">
-<input placeholder="Ceiling NE" onchange="store('${room}','measure','ceilingNE',this.value)">
-<input placeholder="Ceiling SW" onchange="store('${room}','measure','ceilingSW',this.value)">
-<input placeholder="Ceiling SE" onchange="store('${room}','measure','ceilingSE',this.value)">
-<input placeholder="Ceiling Center" onchange="store('${room}','measure','ceilingCenter',this.value)">
+<input value="${r.measure.ceilingNW||""}" onchange="store('${room}','measure','ceilingNW',this.value)" placeholder="Ceiling NW">
+<input value="${r.measure.ceilingNE||""}" onchange="store('${room}','measure','ceilingNE',this.value)" placeholder="Ceiling NE">
+<input value="${r.measure.ceilingSW||""}" onchange="store('${room}','measure','ceilingSW',this.value)" placeholder="Ceiling SW">
+<input value="${r.measure.ceilingSE||""}" onchange="store('${room}','measure','ceilingSE',this.value)" placeholder="Ceiling SE">
+<input value="${r.measure.ceilingCenter||""}" onchange="store('${room}','measure','ceilingCenter',this.value)" placeholder="Ceiling Center">
 
-<input placeholder="Diagonal 1" onchange="store('${room}','measure','diag1',this.value)">
-<input placeholder="Diagonal 2" onchange="store('${room}','measure','diag2',this.value)">
+<input value="${r.measure.diag1||""}" onchange="store('${room}','measure','diag1',this.value)" placeholder="Diagonal 1">
+<input value="${r.measure.diag2||""}" onchange="store('${room}','measure','diag2',this.value)" placeholder="Diagonal 2">
 
-<input placeholder="Wall Deviation NW" onchange="store('${room}','measure','devNW',this.value)">
-<input placeholder="Wall Deviation EW" onchange="store('${room}','measure','devEW',this.value)">
-<input placeholder="Wall Deviation SW" onchange="store('${room}','measure','devSW',this.value)">
-<input placeholder="Wall Deviation WW" onchange="store('${room}','measure','devWW',this.value)">
+<input value="${r.measure.devNW||""}" onchange="store('${room}','measure','devNW',this.value)" placeholder="Wall Deviation NW">
+<input value="${r.measure.devEW||""}" onchange="store('${room}','measure','devEW',this.value)" placeholder="Wall Deviation EW">
+<input value="${r.measure.devSW||""}" onchange="store('${room}','measure','devSW',this.value)" placeholder="Wall Deviation SW">
+<input value="${r.measure.devWW||""}" onchange="store('${room}','measure','devWW',this.value)" placeholder="Wall Deviation WW">
 
 </div>`
-
-html+=`<div class="sectionHeader">Electrical Modules</div><table><tr><th>Wall</th>`
-modules.forEach(m=>html+=`<th>${m}</th>`)
-html+=`</tr>`
-
-walls.forEach(w=>{
-html+=`<tr><td>${w}</td>`
-modules.forEach(m=>{
-html+=`<td><input onchange="store('${room}','electrical','${w}-${m}',this.value)"></td>`
-})
-html+=`</tr>`
-})
-
-html+=`</table>`
 
 html+=`<div class="sectionHeader">Room Questions</div>`
 
@@ -273,11 +245,10 @@ html+=`
 <label>${q}</label>
 <select onchange="store('${room}','room','${q}',this.value)">
 <option></option>
-<option>Yes</option>
-<option>No</option>
+<option ${r.room[q]=="Yes"?"selected":""}>Yes</option>
+<option ${r.room[q]=="No"?"selected":""}>No</option>
 </select>
-<textarea placeholder="Add Comments"
-onchange="store('${room}','room','${q}-comment',this.value)"></textarea>
+<textarea onchange="store('${room}','room','${q}-comment',this.value)" placeholder="Add Comments">${r.room[q+"-comment"]||""}</textarea>
 </div>`
 })
 
@@ -289,17 +260,10 @@ html+=`
 <label>${q}</label>
 <select onchange="store('${room}','wall','${q}',this.value)">
 <option></option>
-<option>Yes</option>
-<option>No</option>
+<option ${r.wall[q]=="Yes"?"selected":""}>Yes</option>
+<option ${r.wall[q]=="No"?"selected":""}>No</option>
 </select>
-<select multiple onchange="storeWalls('${room}','${q}',this)">
-<option>NW</option>
-<option>EW</option>
-<option>SW</option>
-<option>WW</option>
-</select>
-<textarea placeholder="Add Comments"
-onchange="store('${room}','wall','${q}-comment',this.value)"></textarea>
+<textarea onchange="store('${room}','wall','${q}-comment',this.value)" placeholder="Add Comments">${r.wall[q+"-comment"]||""}</textarea>
 </div>`
 })
 
@@ -332,10 +296,6 @@ Object.entries(r.measure).forEach(([k,v])=>{
 rows.push({Room:room,Section:"Measurement",Item:k,Value:v})
 })
 
-Object.entries(r.electrical).forEach(([k,v])=>{
-rows.push({Room:room,Section:"Electrical",Item:k,Value:v})
-})
-
 Object.entries(r.room).forEach(([k,v])=>{
 rows.push({Room:room,Section:"Room Question",Item:k,Value:v})
 })
@@ -354,15 +314,10 @@ XLSX.writeFile(wb,"site_validation.xlsx")
 }
 
 function addRoom(){
-
 let name=prompt("Room name")
-
 if(!name)return
-
 roomOrder.push(name)
-
-data.rooms[name]={measure:{},electrical:{},room:{},wall:{},wallSelection:{}}
-
+data.rooms[name]={measure:{},electrical:{},room:{},wall:{}}
 renderTabs()
 }
 
@@ -370,6 +325,5 @@ renderTabs()
 openRoom(defaultRooms[0])
 
 </script>
-
 </body>
 </html>
