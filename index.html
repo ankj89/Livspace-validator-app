@@ -10,8 +10,11 @@
 
 body{font-family:Arial;margin:0;background:#f4f6fb}
 header{background:#1e3d8f;color:white;padding:14px;font-size:18px}
+
 .container{padding:14px;max-width:1400px;margin:auto}
+
 .card{background:white;padding:16px;margin-bottom:14px;border-radius:8px;border:1px solid #ddd}
+
 .grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
 @media(max-width:900px){.grid{grid-template-columns:1fr}}
 
@@ -44,15 +47,15 @@ table th,table td{border:1px solid #ddd;padding:6px;text-align:center}
 
 <div class="grid">
 
-<input id="pid" placeholder="PID" onchange="saveProject()">
-<input id="cx" placeholder="Cx Name" onchange="saveProject()">
-<input id="city" placeholder="City" onchange="saveProject()">
-<input id="address" placeholder="Address" onchange="saveProject()">
-<input id="society" placeholder="Society Name" onchange="saveProject()">
-<input id="flat" placeholder="Flat No" onchange="saveProject()">
-<input id="floorNo" placeholder="Floor No" onchange="saveProject()">
+<input id="pid" placeholder="PID">
+<input id="cx" placeholder="Cx Name">
+<input id="city" placeholder="City">
+<input id="address" placeholder="Address">
+<input id="society" placeholder="Society Name">
+<input id="flat" placeholder="Flat No">
+<input id="floorNo" placeholder="Floor No">
 
-<select id="bhk" onchange="saveProject()">
+<select id="bhk">
 <option>BHK</option>
 <option>1</option>
 <option>2</option>
@@ -60,53 +63,53 @@ table th,table td{border:1px solid #ddd;padding:6px;text-align:center}
 <option>4</option>
 </select>
 
-<select id="propertyType" onchange="saveProject()">
+<select id="propertyType">
 <option>Property Type</option>
 <option>Bare shell</option>
 <option>Builder finished</option>
 <option>Resale</option>
 </select>
 
-<select id="serviceLift" onchange="saveProject()">
+<select id="serviceLift">
 <option>Service lift available?</option>
 <option>Yes</option>
 <option>No</option>
 </select>
 
-<input id="serviceLiftSize" placeholder="Service lift size" onchange="saveProject()">
+<input id="serviceLiftSize" placeholder="Service lift size">
 
-<select id="passengerLift" onchange="saveProject()">
+<select id="passengerLift">
 <option>Passenger lift available?</option>
 <option>Yes</option>
 <option>No</option>
 </select>
 
-<select id="serviceLiftUsage" onchange="saveProject()">
+<select id="serviceLiftUsage">
 <option>Service lift usage allowed?</option>
 <option>Heavy material movement allowed</option>
 <option>Heavy material movement Not allowed</option>
 </select>
 
-<select id="loadingArea" onchange="saveProject()">
+<select id="loadingArea">
 <option>Debris loading area</option>
 <option>Within 30 ft</option>
 <option>More than 30 ft</option>
 <option>Not present</option>
 </select>
 
-<select id="debrisDumping" onchange="saveProject()">
+<select id="debrisDumping">
 <option>Debris dumping allowed?</option>
 <option>Yes</option>
 <option>No</option>
 </select>
 
-<select id="vehicleEntry" onchange="saveProject()">
+<select id="vehicleEntry">
 <option>Vehicle entry possible?</option>
 <option>Yes</option>
 <option>No</option>
 </select>
 
-<textarea id="societyRestrictions" placeholder="Society Restrictions" onchange="saveProject()"></textarea>
+<textarea id="societyRestrictions" placeholder="Society Restrictions"></textarea>
 
 </div>
 </div>
@@ -119,7 +122,7 @@ table th,table td{border:1px solid #ddd;padding:6px;text-align:center}
 <div class="card" id="roomForm"></div>
 
 <div class="card">
-<button onclick="saveData()">Save Data</button>
+<button onclick="saveData()">Save</button>
 <button onclick="generateTestData()">Generate Test Data</button>
 <button onclick="generateExcel()">Generate Excel</button>
 </div>
@@ -178,22 +181,9 @@ let roomOrder=[...defaultRooms]
 let data=JSON.parse(localStorage.getItem("validatorData")||"{}")
 
 if(!data.rooms)data.rooms={}
-if(!data.project)data.project={}
-
 defaultRooms.forEach(r=>{
-if(!data.rooms[r])data.rooms[r]={measure:{},electrical:{},room:{},wall:{},wallSelection:{}}
+if(!data.rooms[r])data.rooms[r]={measure:{},electrical:{},room:{},wall:{}}
 })
-
-function saveProject(){
-data.project={
-pid:pid.value,
-cx:cx.value,
-city:city.value,
-address:address.value,
-society:society.value
-}
-saveData()
-}
 
 function saveData(){
 localStorage.setItem("validatorData",JSON.stringify(data))
@@ -230,11 +220,6 @@ html+=`<div class="sectionHeader">Measurements</div>
 <input value="${r.measure.diag1||""}" onchange="store('${room}','measure','diag1',this.value)" placeholder="Diagonal 1">
 <input value="${r.measure.diag2||""}" onchange="store('${room}','measure','diag2',this.value)" placeholder="Diagonal 2">
 
-<input value="${r.measure.devNW||""}" onchange="store('${room}','measure','devNW',this.value)" placeholder="Wall Deviation NW">
-<input value="${r.measure.devEW||""}" onchange="store('${room}','measure','devEW',this.value)" placeholder="Wall Deviation EW">
-<input value="${r.measure.devSW||""}" onchange="store('${room}','measure','devSW',this.value)" placeholder="Wall Deviation SW">
-<input value="${r.measure.devWW||""}" onchange="store('${room}','measure','devWW',this.value)" placeholder="Wall Deviation WW">
-
 </div>`
 
 html+=`<div class="sectionHeader">Room Questions</div>`
@@ -268,6 +253,7 @@ html+=`
 })
 
 document.getElementById("roomForm").innerHTML=html
+
 }
 
 function generateTestData(){
@@ -275,13 +261,19 @@ function generateTestData(){
 pid.value="1234"
 cx.value="Ankit"
 
-document.querySelectorAll("select").forEach(s=>{
-if([...s.options].some(o=>o.value==="Yes"))s.value="Yes"
+roomOrder.forEach(room=>{
+roomQuestions.forEach(q=>{
+data.rooms[room].room[q]="Yes"
+data.rooms[room].room[q+"-comment"]="This is a test message"
+})
+wallQuestions.forEach(q=>{
+data.rooms[room].wall[q]="Yes"
+data.rooms[room].wall[q+"-comment"]="This is a test message"
+})
 })
 
-document.querySelectorAll("textarea").forEach(t=>{
-t.value="This is a test message"
-})
+saveData()
+openRoom(roomOrder[0])
 
 }
 
@@ -311,6 +303,7 @@ let ws=XLSX.utils.json_to_sheet(rows)
 
 XLSX.utils.book_append_sheet(wb,ws,"Validation Data")
 XLSX.writeFile(wb,"site_validation.xlsx")
+
 }
 
 function addRoom(){
@@ -325,5 +318,6 @@ renderTabs()
 openRoom(defaultRooms[0])
 
 </script>
+
 </body>
 </html>
